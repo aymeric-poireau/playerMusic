@@ -1,93 +1,92 @@
-from tkinter import *
-from tkinter.ttk import *
 import pygame
 from pygame import mixer
 import sys
 import os
 import random
 
-pygame.font.init()
-pygame.display.init()
-Blanc = (255, 255, 255)
-color_light = (170,170,170)
-color_dark = (100,100,100)
+pygame.init()
 
-play_img = "play.png/"
-pause_img = "pause.png/"
+# Définition des couleurs
+BLANC = (255, 255, 255)
+NOIR = (0, 0, 0)
+GRIS = (128, 128, 128)
 
-    
+# Définition de la taille de la fenêtre
+TAILLE_FENETRE = (600, 170)
 
-color = (255,255,255)
+# Création de la fenêtre
+fenetre = pygame.display.set_mode(TAILLE_FENETRE)
 
-window = pygame.display.set_mode((600,100))
+# Définition des boutons
+BOUTON1_RECT = pygame.Rect(10, 50, 100, 50)
+BOUTON2_RECT = pygame.Rect(490, 50, 100, 50)
+BOUTON3_RECT = pygame.Rect(170, 50, 100, 50)
+BOUTON4_RECT = pygame.Rect(330, 50, 100, 50)
 
-path = "Musique/"
-file = os.path.join(path, random.choice(os.listdir(path)))
-mixer.init()
-mixer.music.load(file)
-mixer.music.play()
+try:
+    path = "Musique/"
+    file = os.path.join(path, random.choice(os.listdir(path)))
+    mixer.init()
+    mixer.music.load(file)
+    mixer.music.play()
+except FileNotFoundError:
+    path = "Music/"
+    file = os.path.join(path, random.choice(os.listdir(path)))
+    mixer.init()
+    mixer.music.load(file)
+    mixer.music.play()
 
-width = window.get_width()
-height = window.get_height()
+# Boucle principale
+while True:
 
-smallfont = pygame.font.SysFont('Corbel',35)
-text1 = smallfont.render('pause' , True , color)
-
-text2 = smallfont.render('play' , True , color)
-
-text3 = smallfont.render('précédent' , True, Blanc)
-
-text4 = smallfont.render('suivant' , True, Blanc)  
-
-pygame.display.update()
-continuer = True
-while continuer:
-    
-    
-    for event in pygame.event.get():
-        #window.blit(vibes_image, [100, 0])
-        pygame.display.flip()
-        mouse = pygame.mouse.get_pos()
-        if event.type == pygame.QUIT:
-            continuer = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-                          
-            if width/2 <= mouse[0] <= width/2+140 and height/3 <= mouse[1] <= height/2+40:
+    # Gestion des événements
+    for evenement in pygame.event.get():
+        if evenement.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+        elif evenement.type == pygame.MOUSEBUTTONDOWN:
+            if BOUTON1_RECT.collidepoint(pygame.mouse.get_pos()):
+                None
+            elif BOUTON2_RECT.collidepoint(pygame.mouse.get_pos()):
+                try:
+                    path = "Musique/"
+                    file = os.path.join(path, random.choice(os.listdir(path)))
+                    mixer.init()
+                    mixer.music.load(file)
+                    mixer.music.play()
+                except FileNotFoundError:
+                    path = "Music/"
+                    file = os.path.join(path, random.choice(os.listdir(path)))
+                    mixer.init()
+                    mixer.music.load(file)
+                    mixer.music.play()
+                
+            elif BOUTON3_RECT.collidepoint(pygame.mouse.get_pos()):
+                mixer.music.play()
+            elif BOUTON4_RECT.collidepoint(pygame.mouse.get_pos()):
                 mixer.music.pause()
-            if width/6 <= mouse[0] <= width/4+160 and height/2 <= mouse[1] <= height/2+12:
-                mixer.music.play()
 
-            if width/2 <= mouse[0] <= width/2+240 and height/3 <= mouse[1] <= height/2+12:
-                path = "Musique/"
-                file = os.path.join(path, random.choice(os.listdir(path)))
-                mixer.init()
-                mixer.music.load(file)
-                mixer.music.play()
-            if width/2 <= mouse[0] <= width/160+2 and height/3 <= mouse[1] <= height/2+40:
-                mixer.music.stop()    
-                
-                
-                
-                
-                
+    # Effacement de l'écran
+    fenetre.fill(BLANC)
 
+    # Dessin des boutons
+    pygame.draw.rect(fenetre, GRIS, BOUTON1_RECT)
+    pygame.draw.rect(fenetre, GRIS, BOUTON2_RECT)
+    pygame.draw.rect(fenetre, GRIS, BOUTON3_RECT)
+    pygame.draw.rect(fenetre, GRIS, BOUTON4_RECT)
 
-    mouse = pygame.mouse.get_pos()
-    
-    if width/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
-        pygame.draw.rect(window,color_light,[width/2,height/2,140,40])
+    # Affichage des textes des boutons
+    font = pygame.font.SysFont(None, 24)
+    text1 = font.render("Précédent", True, NOIR)
+    text2 = font.render("Suivant", True, NOIR)
+    text3 = font.render("Play", True, NOIR)
+    text4 = font.render("Pause", True, NOIR)
+    fenetre.blit(text1, (BOUTON1_RECT.x + 10, BOUTON1_RECT.y + 15))
+    fenetre.blit(text2, (BOUTON2_RECT.x + 10, BOUTON2_RECT.y + 15))
+    fenetre.blit(text3, (BOUTON3_RECT.x + 10, BOUTON3_RECT.y + 15))
+    fenetre.blit(text4, (BOUTON4_RECT.x + 10, BOUTON4_RECT.y + 15))
 
-    else:
-        pygame.draw.rect(window,color_dark,[width/2,height/2,140,40])
-      
-    # superimposing the text onto our button
-    window.blit(text1 , (width/3+110,height/2))
-      
-    window.blit(text2 , (width/5+60,height/2))
-    
-    window.blit(text3 , (width/70+2,height/2))
-    
-    window.blit(text4 , (width/2+150,height/2))
-    
-    # updates the frames of the game
-    pygame.display.update()
+    # Rafraîchissement de l'écran
+    pygame.display.flip()
+
+pygame.quit()
