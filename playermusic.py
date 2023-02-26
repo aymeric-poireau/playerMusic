@@ -35,9 +35,9 @@ try:
     mixer.music.play()
 except FileNotFoundError:
     path = filedialog.askopenfilename()
-    file = os.path.join(path, random.choice(os.listdir(path)))
+
     mixer.init()
-    mixer.music.load(file)
+    mixer.music.load(path)
     mixer.music.play()
 
 # Boucle principale
@@ -60,9 +60,9 @@ while True:
                     mixer.music.play()
                 except FileNotFoundError:
                     path = filedialog.askopenfilename()
-                    file = os.path.join(path, random.choice(os.listdir(path)))
+                    
                     mixer.init()
-                    mixer.music.load(file)
+                    mixer.music.load(path)
                     mixer.music.play()
 
             elif BOUTON3_RECT.collidepoint(pygame.mouse.get_pos()):
