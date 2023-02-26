@@ -3,6 +3,9 @@ from pygame import mixer
 import sys
 import os
 import random
+import requests
+from io import BytesIO
+from tkinter import filedialog
 
 pygame.init()
 
@@ -23,6 +26,7 @@ BOUTON2_RECT = pygame.Rect(490, 50, 100, 50)
 BOUTON3_RECT = pygame.Rect(170, 50, 100, 50)
 BOUTON4_RECT = pygame.Rect(330, 50, 100, 50)
 
+
 try:
     path = "Musique/"
     file = os.path.join(path, random.choice(os.listdir(path)))
@@ -30,7 +34,7 @@ try:
     mixer.music.load(file)
     mixer.music.play()
 except FileNotFoundError:
-    path = "Music/"
+    path = filedialog.askopenfilename()
     file = os.path.join(path, random.choice(os.listdir(path)))
     mixer.init()
     mixer.music.load(file)
@@ -55,12 +59,12 @@ while True:
                     mixer.music.load(file)
                     mixer.music.play()
                 except FileNotFoundError:
-                    path = "Music/"
+                    path = filedialog.askopenfilename()
                     file = os.path.join(path, random.choice(os.listdir(path)))
                     mixer.init()
                     mixer.music.load(file)
                     mixer.music.play()
-                
+
             elif BOUTON3_RECT.collidepoint(pygame.mouse.get_pos()):
                 mixer.music.play()
             elif BOUTON4_RECT.collidepoint(pygame.mouse.get_pos()):
