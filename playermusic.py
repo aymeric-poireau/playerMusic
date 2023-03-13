@@ -26,19 +26,11 @@ BOUTON2_RECT = pygame.Rect(490, 50, 100, 50)
 BOUTON3_RECT = pygame.Rect(170, 50, 100, 50)
 BOUTON4_RECT = pygame.Rect(330, 50, 100, 50)
 
+path = filedialog.askopenfilename()
 
-try:
-    path = "Musique/"
-    file = os.path.join(path, random.choice(os.listdir(path)))
-    mixer.init()
-    mixer.music.load(file)
-    mixer.music.play()
-except FileNotFoundError:
-    path = filedialog.askopenfilename()
-
-    mixer.init()
-    mixer.music.load(path)
-    mixer.music.play()
+mixer.init()
+mixer.music.load(path)
+mixer.music.play()
 
 # Boucle principale
 while True:
@@ -52,13 +44,7 @@ while True:
             if BOUTON1_RECT.collidepoint(pygame.mouse.get_pos()):
                 None
             elif BOUTON2_RECT.collidepoint(pygame.mouse.get_pos()):
-                try:
-                    path = "Musique/"
-                    file = os.path.join(path, random.choice(os.listdir(path)))
-                    mixer.init()
-                    mixer.music.load(file)
-                    mixer.music.play()
-                except FileNotFoundError:
+
                     path = filedialog.askopenfilename()
                     
                     mixer.init()
